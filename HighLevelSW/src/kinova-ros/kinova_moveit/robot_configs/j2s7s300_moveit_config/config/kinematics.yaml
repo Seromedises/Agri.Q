@@ -1,0 +1,15 @@
+arm:
+  #kinematics_solver: j2s7s300_robot_arm_kinematics/IKFastKinematicsPlugin
+  #kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3
+  solve_type : Manipulation2
+  
+# Speed return the first solution found
+# Distance runs for the full timeout then return the solution that minimizes SSE from the seed
+# Manipulation1 runs for the full timeout and return solution that minimizes sqrt(det(J*J^t))
+# Manipulation1 runs for the full timeout and return solution that minimizes cond(J) = |J|*|J^-1|
+
+# Source track-ik readme
