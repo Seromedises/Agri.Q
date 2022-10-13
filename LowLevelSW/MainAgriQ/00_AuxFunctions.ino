@@ -47,6 +47,9 @@ void GetBaseMeasures(){
   //BATTERY AND PV PANELS
   measurePanel();
   measureBattery();
+
+  //IMU
+  measureIMU();
 }
 
 void ResetAllCL(){

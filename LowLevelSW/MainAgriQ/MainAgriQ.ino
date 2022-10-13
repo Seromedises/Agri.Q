@@ -1,6 +1,9 @@
 #include <SD.h>
 #include <SPI.h>
 #include <Encoder.h>
+#include<Wire.h>
+#include<ros.h>
+#include<sensor_msgs/Imu>
 
 #define DEBUGBAUD 115200
 #define ovf 65535
@@ -232,6 +235,22 @@ float Advance_reference = 0.0; //m
 
 // IMU
 
+struct 6dofIMU {
+  const int MPU_addr=0x68;  // I2C address of the MPU-6050
+  int16_t AcX = 0,AcY = 0,AcZ = 0,Tmp = 0,GyX = 0,GyY = 0,GyZ = 0; // RAW DATA FROM REGISTERS
+  float aX = 0.0, aY = 0.0, aZ = 0.0,TmpC = 0.0, gX = 0.0, gY = 0.0, gZ = 0.0; //FLOAT DATA
+};
+
+struct 6dofIMU AgriQFIMU = {0x68, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
+// ROS
+
+ros::NodeHandle  nh;
+
+// ROS publisher:
+sensor_msgs::Imu IMU_msg;
+ros::Publisher AgriQFIMUtopic("AgriQFIMUtopic", &IMU_msg);
+
 /////////////
 //  SETUP  //
 /////////////
@@ -245,7 +264,11 @@ void setup() {
   Roll_init();
   Pitch_init();
   TractionMotors_init();
+  IMU_init();
   //SDinit();
+
+  nh.initNode();
+  nh.advertise(AgriQFIMUtopic);
 
 }
 
@@ -274,17 +297,21 @@ void loop() {
       GetBaseMeasures(); // Get angles, motor angular speeds, motor currents, battery voltage, current comsumption, PV panels current
 
 
-      recvWithStartEndMarkers();
-        if (newData == true) {
-          strcpy(tempChars, receivedChars);
-              // this temporary copy is necessary to protect the original data
-              //   because strtok() used in parseData() replaces the commas with \0
-          parseData(StateAuto);
-          newData = false;
-        }
+      IMU_msg.orientation = {0, 0, 0, 0};
+      IMU_msg.orientation_covariance = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
+      IMU_msg.angular_velocity = {AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gY};
+      IMU_msg.angular_velocity_covariance = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+      IMU_msg.linear_acceleration = {AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ};
+      IMU_msg.linear_acceleration_covariance = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-      
+      AgriQFIMUtopic.publish( &IMU_msg );
+      nh.spinOnce();
+
+
+
       ////////////////// ADVANCE, PITCH AND ROLL CLOSED LOOP MODE ///////////////////
+      // ADAPT THIS SECTION TO ROS MSGs
+
       if (StateAuto == 1){
         
         
