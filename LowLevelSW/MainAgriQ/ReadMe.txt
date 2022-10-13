@@ -1,18 +1,22 @@
 #######################################
-# Agri.Q experimental version v1.1_CL #
+# Agri.Q experimental version v1.2_CL #
 #######################################
 
-Last edit 18/01/2022
+Last edit 13/10/2022
 
-Branced from Agri.Q stable version v1.0
+Branced from Agri.Q stable version Agri.Q experimental version v1.1_CL
 
 #########################
 # EXPERIMENTAL FEATURES #
 #########################
 
-- Receive Pitch, roll and advance references by serial communication
+- Receive Pitch, roll and advance references by serial communication. NEED TO IMPLEMENT THROUGH ROS TOPIC
 - Pitch, roll and andavance closed loop position controls by swicthing SW1 (Enable brakes - Disable brakes - Programmable function)
 - closed loop position controls mode instead of serial log mode
+
+- Implemented MPU-6050 IMU
+- Implemented Teensy as ROS node
+- Send IMU data as ROS IMU msgs via topic
 
 
 ###########
