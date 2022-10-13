@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
+  
+  <!-- Base Controller Using Arduino 
+       INPUT topic: 
+       OUTPUT topic: 
+       /AgriQFIMUtopic -->
 
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node" respawn="true">
+    <param name="port" value="/dev/ttyACM1"/>
+    <param name="baud" value="115200"/>
+  </node>
   <!-- Launch file for GPS module
   
        INPUT topic:
