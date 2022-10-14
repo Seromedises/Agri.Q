@@ -3,7 +3,7 @@
 #include <Encoder.h>
 #include<Wire.h>
 #include<ros.h>
-#include<sensor_msgs/Imu>
+#include<sensor_msgs/Imu.h>
 
 #define DEBUGBAUD 115200
 #define ovf 65535
