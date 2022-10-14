@@ -270,6 +270,12 @@ void setup() {
   nh.initNode();
   nh.advertise(AgriQFIMUtopic);
 
+  for(int i=0;i<9;i++){
+        IMU_msg.orientation_covariance[i] = -1;
+        IMU_msg.angular_velocity_covariance[i] = 0;
+        IMU_msg.linear_acceleration_covariance[i] = 0; 
+        }
+
 }
 
 /////////////////
@@ -301,17 +307,14 @@ void loop() {
       IMU_msg.orientation.y = 0.0;
       IMU_msg.orientation.z = 0.0;
       IMU_msg.orientation.w = 0.0;
-      IMU_msg.orientation_covariance = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
 
       IMU_msg.angular_velocity.x = AgriQFIMU.gX;
       IMU_msg.angular_velocity.y = AgriQFIMU.gY;
-      IMU_msg.angular_velocity.z = AgriQFIMU.gZ};
-      IMU_msg.angular_velocity_covariance = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+      IMU_msg.angular_velocity.z = AgriQFIMU.gZ;
 
       IMU_msg.linear_acceleration.x = AgriQFIMU.aX;
       IMU_msg.linear_acceleration.y = AgriQFIMU.aY;
       IMU_msg.linear_acceleration.z = AgriQFIMU.aZ;
-      IMU_msg.linear_acceleration_covariance = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
       AgriQFIMUtopic.publish( &IMU_msg );
       nh.spinOnce();
