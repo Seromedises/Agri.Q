@@ -275,7 +275,7 @@ void setup() {
         IMU_msg.angular_velocity_covariance[i] = 0;
         IMU_msg.linear_acceleration_covariance[i] = 0; 
         }
-
+  IMU_msg.header.frame_id = "base_link";
 }
 
 /////////////////
@@ -283,7 +283,7 @@ void setup() {
 /////////////////
 void loop() {
   
-  if (millis() - time_old >= 10){
+  if (millis() - time_old >= 1000){
       time_sample = (millis()-time_old)/1000.0;
       time_old = millis();
       
@@ -416,7 +416,8 @@ void loop() {
         MRL_outcmd(MRL.reference);
         MRR_outcmd(MRL.reference);
         }
-      }  
+      } 
+      Serial.println(AgriQFIMU.aX);
   } // end of IF time sample
 
 
