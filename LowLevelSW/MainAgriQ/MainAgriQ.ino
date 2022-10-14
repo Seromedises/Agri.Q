@@ -235,13 +235,13 @@ float Advance_reference = 0.0; //m
 
 // IMU
 
-struct 6dofIMU {
+struct SixdofIMU {
   const int MPU_addr=0x68;  // I2C address of the MPU-6050
   int16_t AcX = 0,AcY = 0,AcZ = 0,Tmp = 0,GyX = 0,GyY = 0,GyZ = 0; // RAW DATA FROM REGISTERS
   float aX = 0.0, aY = 0.0, aZ = 0.0,TmpC = 0.0, gX = 0.0, gY = 0.0, gZ = 0.0; //FLOAT DATA
 };
 
-struct 6dofIMU AgriQFIMU = {0x68, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+struct SixdofIMU AgriQFIMU = {0x68, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 // ROS
 
@@ -297,11 +297,20 @@ void loop() {
       GetBaseMeasures(); // Get angles, motor angular speeds, motor currents, battery voltage, current comsumption, PV panels current
 
 
-      IMU_msg.orientation = {0, 0, 0, 0};
+      IMU_msg.orientation.x = 0.0;
+      IMU_msg.orientation.y = 0.0;
+      IMU_msg.orientation.z = 0.0;
+      IMU_msg.orientation.w = 0.0;
       IMU_msg.orientation_covariance = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
-      IMU_msg.angular_velocity = {AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gY};
+
+      IMU_msg.angular_velocity.x = AgriQFIMU.gX;
+      IMU_msg.angular_velocity.y = AgriQFIMU.gY;
+      IMU_msg.angular_velocity.z = AgriQFIMU.gZ};
       IMU_msg.angular_velocity_covariance = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-      IMU_msg.linear_acceleration = {AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ};
+
+      IMU_msg.linear_acceleration.x = AgriQFIMU.aX;
+      IMU_msg.linear_acceleration.y = AgriQFIMU.aY;
+      IMU_msg.linear_acceleration.z = AgriQFIMU.aZ;
       IMU_msg.linear_acceleration_covariance = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
       AgriQFIMUtopic.publish( &IMU_msg );
