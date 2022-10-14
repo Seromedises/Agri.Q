@@ -1,7 +1,8 @@
 #include <SD.h>
 #include <SPI.h>
 #include <Encoder.h>
-#include<Wire.h>
+#include <i2c_t3.h>
+//#include<Wire.h>
 #include<ros.h>
 #include<sensor_msgs/Imu.h>
 
@@ -270,6 +271,11 @@ void setup() {
   nh.initNode();
   nh.advertise(AgriQFIMUtopic);
 
+  IMU_msg.orientation.x = 0.0;
+  IMU_msg.orientation.y = 0.0;
+  IMU_msg.orientation.z = 0.0;
+  IMU_msg.orientation.w = 0.0;
+
   for(int i=0;i<9;i++){
         IMU_msg.orientation_covariance[i] = -1;
         IMU_msg.angular_velocity_covariance[i] = 0;
@@ -283,7 +289,7 @@ void setup() {
 /////////////////
 void loop() {
   
-  if (millis() - time_old >= 1000){
+  if (millis() - time_old >= 10){
       time_sample = (millis()-time_old)/1000.0;
       time_old = millis();
       
@@ -301,25 +307,6 @@ void loop() {
       //enb_DATALOG = StateAuto; // ACTIVABLE LOG REMOVED
 
       GetBaseMeasures(); // Get angles, motor angular speeds, motor currents, battery voltage, current comsumption, PV panels current
-
-
-      IMU_msg.orientation.x = 0.0;
-      IMU_msg.orientation.y = 0.0;
-      IMU_msg.orientation.z = 0.0;
-      IMU_msg.orientation.w = 0.0;
-
-      IMU_msg.angular_velocity.x = AgriQFIMU.gX;
-      IMU_msg.angular_velocity.y = AgriQFIMU.gY;
-      IMU_msg.angular_velocity.z = AgriQFIMU.gZ;
-
-      IMU_msg.linear_acceleration.x = AgriQFIMU.aX;
-      IMU_msg.linear_acceleration.y = AgriQFIMU.aY;
-      IMU_msg.linear_acceleration.z = AgriQFIMU.aZ;
-
-      AgriQFIMUtopic.publish( &IMU_msg );
-      nh.spinOnce();
-
-
 
       ////////////////// ADVANCE, PITCH AND ROLL CLOSED LOOP MODE ///////////////////
       // ADAPT THIS SECTION TO ROS MSGs
@@ -417,9 +404,25 @@ void loop() {
         MRR_outcmd(MRL.reference);
         }
       } 
-      Serial.println(AgriQFIMU.aX);
+      //Serial.println(AgriQFIMU.aX);
   } // end of IF time sample
 
+  if(millis() - time_oldLOG >= 50){
+    time_oldLOG = millis();
+
+    IMU_msg.angular_velocity.x = AgriQFIMU.gX;
+    IMU_msg.angular_velocity.y = AgriQFIMU.gY;
+    IMU_msg.angular_velocity.z = AgriQFIMU.gZ;
+
+    IMU_msg.linear_acceleration.x = AgriQFIMU.aX;
+    IMU_msg.linear_acceleration.y = AgriQFIMU.aY;
+    IMU_msg.linear_acceleration.z = AgriQFIMU.aZ;
+
+    AgriQFIMUtopic.publish( &IMU_msg );
+    nh.spinOnce();
+
+
+  }
 
     ///// LOG
         
