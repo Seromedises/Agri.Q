@@ -407,7 +407,7 @@ void loop() {
     buildIMUmsg(); // Compose ROS IMU_msg
 
     AgriQFIMUtopic.publish( &IMU_msg ); // Publish: IMU_msg on topic: /AgriQFIMUtopic
-    nh.spinOnce();
+    //nh.spinOnce();
   } //end of IMU topic loop
 
     ///// LOG

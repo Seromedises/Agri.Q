@@ -42,7 +42,7 @@
     <rosparam command="load" file="$(find navigation)/params/navsat_transform_template.yaml" />
 
       <!-- Placeholders for input remapping. Set your topic names as the "to" values. -->
-      <remap from="imu/data" to="/AgriQFIMUtopic"/>
+      <remap from="/imu/data" to="/AgriQFIMUtopic"/> 
       <!--<remap from="odometry/filtered" to=""/>-->
       <remap from="gps/fix" to="/ublox/fix"/>
       

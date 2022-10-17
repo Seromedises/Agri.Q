@@ -168,5 +168,7 @@ void buildIMUmsg(){
         IMU_msg.linear_acceleration_covariance[i] = 0; //Unknown
         }
   // Set IMU frame
-  IMU_msg.header.frame_id = "base_link";
+  IMU_msg.header.frame_id = "imu";
+   // time
+  IMU_msg.header.stamp = nh.now();
 }
