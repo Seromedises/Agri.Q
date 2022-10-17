@@ -3,46 +3,55 @@
 <launch>
   
   <!-- Base Controller Using Arduino 
-       INPUT topic: 
-       OUTPUT topic: 
-       /AgriQFIMUtopic -->
+    INPUT topic: 
+    OUTPUT topic: 
+    /AgriQFIMUtopic
+  -->
 
   <node pkg="rosserial_python" type="serial_node.py" name="serial_node" respawn="true">
     <param name="port" value="/dev/ttyACM1"/>
     <param name="baud" value="115200"/>
   </node>
   <!-- Launch file for GPS module
-  
-       INPUT topic:
-       /rtcm - rtcm_msgs/Message messagio dalla stazione fissa
-       
-       OUTPUT topic: 
-       /ublox/fix - sensor_msgs/NavSatFix Posizione ottenuta dal GPS
-       /ublox/fix_velocity - geometry_msgs/TwistWithCovarianceStamped Velocità ottenuta dal GPS -->
+    INPUT topic:
+    /rtcm - rtcm_msgs/Message messagio dalla stazione fissa
+    
+    OUTPUT topic: 
+    /ublox/fix - sensor_msgs/NavSatFix Posizione ottenuta dal GPS
+    /ublox/fix_velocity - geometry_msgs/TwistWithCovarianceStamped Velocità ottenuta dal GPS 
+  -->
   
   <include file="$(find agri_q)/launch/ublox.launch" />
   
   <!-- Transform to GPS to ODOM
-  
-       INPUT topic:
-       /ublox/fix - sensor_msgs/NavSatFix Posizione ottenuta dal GPS
-       /AgriQFIMUtopic - Agri.Q Imu topic
-       
-       OUTPUT topic: 
-       /odometry/gps - nav_msgs/Odometry Odomoetria ottenuta dalla posizione del GPS-->
+    INPUT topic:
+    /ublox/fix - sensor_msgs/NavSatFix Posizione ottenuta dal GPS
+    /AgriQFIMUtopic - Agri.Q Imu topic
+    
+    OUTPUT topic: 
+    /odometry/gps - nav_msgs/Odometry Odomoetria ottenuta dalla posizione del GPS-
+  -->
   
   <include file="$(find navigation)/launch/navsat_transform_template.launch" />
 
   <!-- Robot pose estimate
-  
-       INPUT topic:
-       /odometry/gps- sensor_msgs/IMU Posizione ottenuta dal GPS
-       /AgriQFIMUtopic - Agri.Q Imu topic
-       
-       OUTPUT topic: 
-       /odometry/filtred - nav_msgs/Odometry Odomoetria ottenuta dal filtro-->
+    INPUT topic:
+    /odometry/gps- sensor_msgs/IMU Posizione ottenuta dal GPS
+    /AgriQFIMUtopic - Agri.Q Imu topic
+    
+    OUTPUT topic: 
+    /odometry/filtred - nav_msgs/Odometry Odomoetria ottenuta dal filtro
+  -->
   
   <include file="$(find navigation)/launch/ekf_template.launch" />
+
+  <!-- Static Transform
+    
+    OUTPUT topic: 
+    /tf - geometry_msgs/TransformStamped trasformazioni fra i sistemi di riferimento
+  -->
+
+  <include file="$(find agri_q)/launch/tf.launch" />
   
   
 </launch>
