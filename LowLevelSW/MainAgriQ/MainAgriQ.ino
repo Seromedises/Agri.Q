@@ -2,12 +2,17 @@
 #include <SPI.h>
 #include <Encoder.h>
 #include <i2c_t3.h>
+#include <math.h>
+
 //#include<Wire.h>
 #include<ros.h>
 #include<sensor_msgs/Imu.h>
 
 #define DEBUGBAUD 115200
 #define ovf 65535
+
+#define g 9.80665
+#define PI 3.14159265359
 
 // LOOP TIME VARIABLES
 long time_old = 0;

@@ -26,13 +26,13 @@ void measureIMU(){
 
     //EWMA FILTER
 
-    AgriQFIMU.aX = alpha_IMU_ac * AgriQFIMU.AcX * 9.806/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aX; // m/s^2
-    AgriQFIMU.aY = alpha_IMU_ac * AgriQFIMU.AcY * 9.806/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aY; // m/s^2
-    AgriQFIMU.aZ = alpha_IMU_ac * AgriQFIMU.AcZ * 9.806/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aZ; // m/s^2
+    AgriQFIMU.aX = alpha_IMU_ac * AgriQFIMU.AcX * g/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aX; // m/s^2
+    AgriQFIMU.aY = alpha_IMU_ac * AgriQFIMU.AcY * g/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aY; // m/s^2
+    AgriQFIMU.aZ = alpha_IMU_ac * AgriQFIMU.AcZ * g/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aZ; // m/s^2
 
-    AgriQFIMU.gX = alpha_IMU_gy * AgriQFIMU.GyX * 3.14/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gX; // rad/s
-    AgriQFIMU.gY = alpha_IMU_gy * AgriQFIMU.GyY * 3.14/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gY; // rad/s
-    AgriQFIMU.gZ = alpha_IMU_gy * AgriQFIMU.GyZ * 3.14/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gZ; // rad/s
+    AgriQFIMU.gX = alpha_IMU_gy * AgriQFIMU.GyX * PI/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gX; // rad/s
+    AgriQFIMU.gY = alpha_IMU_gy * AgriQFIMU.GyY * PI/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gY; // rad/s
+    AgriQFIMU.gZ = alpha_IMU_gy * AgriQFIMU.GyZ * PI/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gZ; // rad/s
 
     // SERIAL DEBUG
     //Serial.print( AgriQFIMU.GyX * 9.806/16384.0 );

@@ -66,5 +66,5 @@ void Pitch_outcmd(uint16_t RxPitch){
 float Pitch_getmeasure(){
   float k = 0.8;
   
-  return (1-k)*Pitch_measured + k*mapfloat(analogRead(Pitch_measuredPin), 578, 287, -5.44 *3.14/180.0, 33.0 *3.14/180.0); //rad
+  return (1-k)*Pitch_measured + k*mapfloat(analogRead(Pitch_measuredPin), 578, 287, -5.44 *PI/180.0, 33.0 *PI/180.0); //rad
 }

@@ -19,7 +19,7 @@ void TractionMotors_init(){
 void MFL_MeasureOmega(){
   const float alpha_filter = 0.2;
   MFL.EncCount = Enc_MFL.read();
-  MFL.omega_measured = - 2.0*3.14*(MFL.EncCount - MFL.EncCountOLD)/time_sample/MFL.CPR;
+  MFL.omega_measured = - 2.0*PI*(MFL.EncCount - MFL.EncCountOLD)/time_sample/MFL.CPR;
   MFL.EncCountOLD = MFL.EncCount;
   MFL.omega_measured = alpha_filter * MFL.omega_measured + (1 - alpha_filter)*MFL.omega_measuredOLD;
   MFL.omega_measuredOLD = MFL.omega_measured;
@@ -29,7 +29,7 @@ void MFR_MeasureOmega(){
   const float alpha_filter = 0.2;
   
   MFR.EncCount = Enc_MFR.read();
-  MFR.omega_measured = - 2.0*3.14*(MFR.EncCount - MFR.EncCountOLD)/time_sample/MFR.CPR;
+  MFR.omega_measured = - 2.0*PI*(MFR.EncCount - MFR.EncCountOLD)/time_sample/MFR.CPR;
   MFR.EncCountOLD = MFR.EncCount;
   MFR.omega_measured = alpha_filter * MFR.omega_measured + (1 - alpha_filter)*MFR.omega_measuredOLD;
   MFR.omega_measuredOLD = MFR.omega_measured;
@@ -39,7 +39,7 @@ void MRL_MeasureOmega(){
   const float alpha_filter = 0.2;
   
   MRL.EncCount = Enc_MRL.read();
-  MRL.omega_measured = 2.0*3.14*(MRL.EncCount - MRL.EncCountOLD)/time_sample/MRL.CPR;
+  MRL.omega_measured = 2.0*PI*(MRL.EncCount - MRL.EncCountOLD)/time_sample/MRL.CPR;
   MRL.EncCountOLD = MRL.EncCount;
   MRL.omega_measured = alpha_filter * MRL.omega_measured + (1 - alpha_filter)*MRL.omega_measuredOLD;
   MRL.omega_measuredOLD = MRL.omega_measured;
@@ -49,7 +49,7 @@ void MRR_MeasureOmega(){
   const float alpha_filter = 0.2;
   
   MRR.EncCount = Enc_MRR.read();
-  MRR.omega_measured = 2.0*3.14*(MRR.EncCount - MRR.EncCountOLD)/time_sample/MRR.CPR;
+  MRR.omega_measured = 2.0*PI*(MRR.EncCount - MRR.EncCountOLD)/time_sample/MRR.CPR;
   MRR.EncCountOLD = MRR.EncCount;
   MRR.omega_measured = alpha_filter * MRR.omega_measured + (1 - alpha_filter)*MRR.omega_measuredOLD;
   MRR.omega_measuredOLD = MRR.omega_measured;

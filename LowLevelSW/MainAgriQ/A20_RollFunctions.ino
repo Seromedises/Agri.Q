@@ -64,7 +64,7 @@ void Roll_outcmd(uint16_t RxRoll){
 float Roll_getmeasure(){
   // max roll sx 310, max roll dx 221
   float k = 0.8;
-  return (1-k)*Roll_measured + k*mapfloat(analogRead(Roll_measuredPin), 310, 221, -20.0 *3.14/180.0, 20.0 *3.14/180.0); //rad
+  return (1-k)*Roll_measured + k*mapfloat(analogRead(Roll_measuredPin), 310, 221, -20.0 *PI/180.0, 20.0 *PI/180.0); //rad
 }
 
 
