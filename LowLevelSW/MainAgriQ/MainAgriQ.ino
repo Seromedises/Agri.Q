@@ -270,7 +270,7 @@ void setup() {
 
   nh.initNode();
   nh.advertise(AgriQFIMUtopic);
-
+}
 /////////////////
 //  MAIN LOOP  //
 /////////////////
