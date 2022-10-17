@@ -30,7 +30,7 @@
        OUTPUT topic: 
        /odom - nav_msgs/Odometry Odomoetria ottenuta -->
   
-  <!--<include file="$(find agri_q)/launch/GPS_to_ODOM.launch" />-->
+  <include file="$(find agri_q)/launch/GPS_to_ODOM.launch" />
   
   
 </launch>
