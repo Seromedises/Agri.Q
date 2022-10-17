@@ -26,11 +26,23 @@
   
        INPUT topic:
        /ublox/fix - sensor_msgs/NavSatFix Posizione ottenuta dal GPS
+       /AgriQFIMUtopic - Agri.Q Imu topic
        
        OUTPUT topic: 
-       /odom - nav_msgs/Odometry Odomoetria ottenuta -->
+       /odometry/gps - nav_msgs/Odometry Odomoetria ottenuta dalla posizione del GPS-->
   
-  <!--<include file="$(find agri_q)/launch/GPS_to_ODOM.launch" />-->
+  <include file="$(find navigation)/launch/navsat_transform_template.launch" />
+
+  <!-- Robot pose estimate
+  
+       INPUT topic:
+       /odometry/gps- sensor_msgs/IMU Posizione ottenuta dal GPS
+       /AgriQFIMUtopic - Agri.Q Imu topic
+       
+       OUTPUT topic: 
+       /odometry/filtred - nav_msgs/Odometry Odomoetria ottenuta dal filtro-->
+  
+  <include file="$(find navigation)/launch/ekf_template.launch" />
   
   
 </launch>
