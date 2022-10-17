@@ -161,10 +161,10 @@ void buildIMUmsg(){
   IMU_msg.linear_acceleration.z = AgriQFIMU.aZ;
   
   // orientation estimate - To Be Implemented (USE QUATERNIONS)
-  IMU_msg.orientation.x = q[0];
-  IMU_msg.orientation.y = q[1];
-  IMU_msg.orientation.z = q[2];
-  IMU_msg.orientation.w = q[3];
+  IMU_msg.orientation.x = q[1];
+  IMU_msg.orientation.y = q[2];
+  IMU_msg.orientation.z = q[3];
+  IMU_msg.orientation.w = q[0]; // Depends on how a quaternion is defined
 
   // Set covariance matrices
   for(int i=0;i<9;i++){
