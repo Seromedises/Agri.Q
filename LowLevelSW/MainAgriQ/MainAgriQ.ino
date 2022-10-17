@@ -249,6 +249,8 @@ struct SixdofIMU {
 
 struct SixdofIMU AgriQFIMU = {0x68, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
+float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};            // vector to hold quaternion
+
 // ROS
 
 ros::NodeHandle  nh;
