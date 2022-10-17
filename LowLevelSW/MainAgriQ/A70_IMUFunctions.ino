@@ -6,8 +6,8 @@ void IMU_init(){
   Wire.endTransmission(true);
   }
 
-float alpha_IMU_ac = 0.1; //Linear acceleration filter parameter (0 - 1)
-float alpha_IMU_gy = 0.4; //Angular velocity filter parameter (0 - 1)
+float alpha_IMU_ac = 1.0; // 0.1 Linear acceleration filter parameter (0 - 1)
+float alpha_IMU_gy = 1.0; //0.4 Angular velocity filter parameter (0 - 1)
 
 void measureIMU(){
   
@@ -39,7 +39,7 @@ void measureIMU(){
     AgriQFIMU.gZ = -AgriQFIMU.gZ; //Align Gyro Z Axis to Agri.Q Z axis
 
 
-    MadgwickQuaternionUpdate(q, AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ, AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gZ);
+    //MadgwickQuaternionUpdate(q, AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ, AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gZ);
 
 }
 

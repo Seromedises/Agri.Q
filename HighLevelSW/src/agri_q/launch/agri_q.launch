@@ -21,7 +21,7 @@
     /ublox/fix_velocity - geometry_msgs/TwistWithCovarianceStamped Velocità ottenuta dal GPS 
   -->
   
-  <include file="$(find agri_q)/launch/ublox.launch" />
+  <!--<include file="$(find agri_q)/launch/ublox.launch" />-->
   
   <!-- Transform to GPS to ODOM
     INPUT topic:

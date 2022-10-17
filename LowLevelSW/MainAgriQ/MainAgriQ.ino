@@ -265,6 +265,8 @@ ros::Publisher AgriQFIMUtopic("AgriQFIMUtopic", &IMU_msg);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(DEBUGBAUD);
+  nh.getHardware()->setBaud(DEBUGBAUD);
+      
   analogWriteResolution(12);
 
   Rx_init();
@@ -401,13 +403,13 @@ void loop() {
       //Serial.println(AgriQFIMU.aX);
   } // end of IF time sample
 
-  if(millis() - time_oldIMU >= 50){ //IMU topic loop - rate 20Hz (50ms)
+  if(millis() - time_oldIMU >= 75){ //IMU topic loop - rate 20Hz (50ms)
     time_oldIMU = millis();
 
     buildIMUmsg(); // Compose ROS IMU_msg
 
     AgriQFIMUtopic.publish( &IMU_msg ); // Publish: IMU_msg on topic: /AgriQFIMUtopic
-    //nh.spinOnce();
+    nh.spinOnce();
   } //end of IMU topic loop
 
     ///// LOG
