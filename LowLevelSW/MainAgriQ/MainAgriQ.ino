@@ -271,19 +271,6 @@ void setup() {
   nh.initNode();
   nh.advertise(AgriQFIMUtopic);
 
-  IMU_msg.orientation.x = 0.0;
-  IMU_msg.orientation.y = 0.0;
-  IMU_msg.orientation.z = 0.0;
-  IMU_msg.orientation.w = 0.0;
-
-  for(int i=0;i<9;i++){
-        IMU_msg.orientation_covariance[i] = -1;
-        IMU_msg.angular_velocity_covariance[i] = 0;
-        IMU_msg.linear_acceleration_covariance[i] = 0; 
-        }
-  IMU_msg.header.frame_id = "base_link";
-}
-
 /////////////////
 //  MAIN LOOP  //
 /////////////////
@@ -407,22 +394,14 @@ void loop() {
       //Serial.println(AgriQFIMU.aX);
   } // end of IF time sample
 
-  if(millis() - time_oldLOG >= 50){
-    time_oldLOG = millis();
+  if(millis() - time_oldIMU >= 50){ //IMU topic loop - rate 20Hz (50ms)
+    time_oldIMU = millis();
 
-    IMU_msg.angular_velocity.x = AgriQFIMU.gX;
-    IMU_msg.angular_velocity.y = AgriQFIMU.gY;
-    IMU_msg.angular_velocity.z = AgriQFIMU.gZ;
+    buildIMUmsg(); // Compose ROS IMU_msg
 
-    IMU_msg.linear_acceleration.x = AgriQFIMU.aX;
-    IMU_msg.linear_acceleration.y = AgriQFIMU.aY;
-    IMU_msg.linear_acceleration.z = AgriQFIMU.aZ;
-
-    AgriQFIMUtopic.publish( &IMU_msg );
+    AgriQFIMUtopic.publish( &IMU_msg ); // Publish: IMU_msg on topic: /AgriQFIMUtopic
     nh.spinOnce();
-
-
-  }
+  } //end of IMU topic loop
 
     ///// LOG
         
