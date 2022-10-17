@@ -41,11 +41,6 @@ void measureIMU(){
 
     MadgwickQuaternionUpdate(q, AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ, AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gZ);
 
-    // SERIAL DEBUG
-    Serial.print( q[1] );
-    Serial.print( ", " );
-    Serial.println( q[2] );
-
 }
 
   void MadgwickQuaternionUpdate(float q[], float ax, float ay, float az, float gyrox, float gyroy, float gyroz){
@@ -55,7 +50,7 @@ void measureIMU(){
     // https://github.com/kriswiner/MPU6050/blob/master/quaternionFilter.ino
 
 
-    float deltat = 10 / 1000; // main loop period s
+    //float deltat = 10 / 1000; // main loop period s
     
     float q1 = q[0], q2 = q[1], q3 = q[2], q4 = q[3];         // short name local variable for readability
     float norm;                                               // vector norm
@@ -120,9 +115,9 @@ void measureIMU(){
     gerrz = _2q1 * hatDot4 - _2q2 * hatDot3 + _2q3 * hatDot2 - _2q4 * hatDot1;
     
     // Compute and remove gyroscope biases
-    gbiasx += gerrx * deltat * zeta;
-    gbiasy += gerry * deltat * zeta;
-    gbiasz += gerrz * deltat * zeta;
+    gbiasx += gerrx * time_sample * zeta;
+    gbiasy += gerry * time_sample * zeta;
+    gbiasz += gerrz * time_sample * zeta;
     gyrox -= gbiasx;
     gyroy -= gbiasy;
     gyroz -= gbiasz;
@@ -134,10 +129,10 @@ void measureIMU(){
     qDot4 =  _halfq1 * gyroz + _halfq2 * gyroy - _halfq3 * gyrox;
 
     // Compute then integrate estimated quaternion derivative
-    q1 += (qDot1 -(beta * hatDot1)) * deltat;
-    q2 += (qDot2 -(beta * hatDot2)) * deltat;
-    q3 += (qDot3 -(beta * hatDot3)) * deltat;
-    q4 += (qDot4 -(beta * hatDot4)) * deltat;
+    q1 += (qDot1 -(beta * hatDot1)) * time_sample;
+    q2 += (qDot2 -(beta * hatDot2)) * time_sample;
+    q3 += (qDot3 -(beta * hatDot3)) * time_sample;
+    q4 += (qDot4 -(beta * hatDot4)) * time_sample;
 
     // Normalize the quaternion
     norm = sqrt(q1 * q1 + q2 * q2 + q3 * q3 + q4 * q4);    // normalise quaternion
