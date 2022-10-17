@@ -39,16 +39,16 @@ void measureIMU(){
     AgriQFIMU.gZ = -AgriQFIMU.gZ; //Align Gyro Z Axis to Agri.Q Z axis
 
 
-    MadgwickQuaternionUpdate(AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ, AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gZ);
+    MadgwickQuaternionUpdate(q, AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ, AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gZ);
 
     // SERIAL DEBUG
-    //Serial.print( AgriQFIMU.GyX * 9.806/16384.0 );
-    //Serial.print( ", " );
-    //Serial.println( AgriQFIMU.gX );
+    Serial.print( q[1] );
+    Serial.print( ", " );
+    Serial.println( q[2] );
 
 }
 
-  void MadgwickQuaternionUpdate(float ax, float ay, float az, float gyrox, float gyroy, float gyroz){
+  void MadgwickQuaternionUpdate(float q[], float ax, float ay, float az, float gyrox, float gyroy, float gyroz){
     // BASED ON 
     // https://ieeexplore.ieee.org/document/5975346
     // https://nitinjsanket.github.io/tutorials/attitudeest/madgwick
@@ -79,8 +79,8 @@ void measureIMU(){
     float _2q2 = 2.0f * q2;
     float _2q3 = 2.0f * q3;
     float _2q4 = 2.0f * q4;
-    float _2q1q3 = 2.0f * q1 * q3;
-    float _2q3q4 = 2.0f * q3 * q4;
+    //float _2q1q3 = 2.0f * q1 * q3;
+    //float _2q3q4 = 2.0f * q3 * q4;
 
     // Normalise accelerometer measurement
     norm = sqrt(ax * ax + ay * ay + az * az);
