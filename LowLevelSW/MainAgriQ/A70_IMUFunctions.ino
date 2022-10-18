@@ -27,17 +27,27 @@ void measureIMU(){
     //EWMA FILTER
 
     AgriQFIMU.aX = alpha_IMU_ac * AgriQFIMU.AcX * g/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aX; // m/s^2
+    AgriQFIMU.aX = mapfloat(AgriQFIMU.aX, -9.25235, +10.2548, -g, g); //Scale between +-g. Experimental data
+
     AgriQFIMU.aY = alpha_IMU_ac * AgriQFIMU.AcY * g/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aY; // m/s^2
     AgriQFIMU.aY = -AgriQFIMU.aY; //Align IMU Y Axis to Agri.Q Y axis
+    AgriQFIMU.aY = mapfloat(AgriQFIMU.aY, -9.76527, +9.907871, -g, g); //Scale between +-g. Experimental data
+
     AgriQFIMU.aZ = alpha_IMU_ac * AgriQFIMU.AcZ * g/16384.0 + (1-alpha_IMU_ac) * AgriQFIMU.aZ; // m/s^2
     AgriQFIMU.aZ = -AgriQFIMU.aZ; //Align IMU Z Axis to Agri.Q Z axis
-
+    AgriQFIMU.aY = mapfloat(AgriQFIMU.aY, -9.4429, +10.62434, -g, g); //Scale between +-g. Experimental data
+    
     AgriQFIMU.gX = alpha_IMU_gy * AgriQFIMU.GyX * PI/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gX; // rad/s
+    AgriQFIMU.gX = AgriQFIMU.gX - (-0.04493); // remove initial offset
+
     AgriQFIMU.gY = alpha_IMU_gy * AgriQFIMU.GyY * PI/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gY; // rad/s
     AgriQFIMU.gY = -AgriQFIMU.gY; //Align Gyro Y Axis to Agri.Q Y axis
+    AgriQFIMU.gY = AgriQFIMU.gY - (0.020774); // remove initial offset
+    
     AgriQFIMU.gZ = alpha_IMU_gy * AgriQFIMU.GyZ * PI/(180.0 * 131.0) + (1-alpha_IMU_gy) * AgriQFIMU.gZ; // rad/s
     AgriQFIMU.gZ = -AgriQFIMU.gZ; //Align Gyro Z Axis to Agri.Q Z axis
-
+    AgriQFIMU.gZ = AgriQFIMU.gZ - (-0.00318); // remove initial offset
+    
 
     //MadgwickQuaternionUpdate(q, AgriQFIMU.aX, AgriQFIMU.aY, AgriQFIMU.aZ, AgriQFIMU.gX, AgriQFIMU.gY, AgriQFIMU.gZ);
 
@@ -167,6 +177,15 @@ void buildIMUmsg(){
         IMU_msg.angular_velocity_covariance[i] = 0; //Unknown
         IMU_msg.linear_acceleration_covariance[i] = 0; //Unknown
         }
+
+  IMU_msg.angular_velocity_covariance[0] = 2.79/1000000.0;
+  IMU_msg.angular_velocity_covariance[4] = 3.01/1000000.0;
+  IMU_msg.angular_velocity_covariance[8] = 6.65/1000000.0;
+
+  IMU_msg.linear_acceleration_covariance[0] = 0.001474;
+  IMU_msg.linear_acceleration_covariance[4] = 0.005056;
+  IMU_msg.linear_acceleration_covariance[8] = 0.0028;
+
   // Set IMU frame
   IMU_msg.header.frame_id = "imu";
    // time
